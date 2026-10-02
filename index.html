@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Medicare Customer Persona Builder</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23146855'/%3E%3Cpath d='M16 9v14M9 16h14' stroke='white' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="medicare-persona-builder.css">
+  <script src="medicare-persona-builder.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">Medicare · Licensed Agent Training</div>
+    <h1>Medicare Customer Persona Builder</h1>
+    <p>Create customer personas for licensed-agent training. Define each customer’s background, personality, Medicare coverage, enrollment situation, questions, and concerns.</p>
+  </header>
+  <div class="workspace">
+    <aside>
+      <nav id="sections" aria-label="Builder sections"></nav>
+      <section class="saved" aria-labelledby="savedTitle">
+        <div class="saved-head">
+          <h3 id="savedTitle">Saved Personas</h3>
+          <button type="button" id="newPersona" class="small">+ New</button>
+        </div>
+        <ul id="savedList" class="saved-list"></ul>
+        <p id="savedEmpty" class="saved-empty">Loading…</p>
+      </section>
+    </aside>
+    <main>
+      <div class="actionbar">
+        <div class="actionbar-text">
+          <strong id="currentTitle">New Persona</strong>
+          <span id="saveState" role="status" aria-live="polite">Not saved yet</span>
+        </div>
+        <button type="button" id="savePersona" class="primary">Save Persona</button>
+      </div>
+      <noscript>Enable JavaScript to use this builder.</noscript>
+      <form id="personaForm" novalidate>
+        <div id="fields"></div>
+      </form>
+    </main>
+  </div>
+</body>
+</html>
