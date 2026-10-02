@@ -695,11 +695,9 @@
       const { persona } = currentId
         ? await api('PUT', '?id=' + encodeURIComponent(currentId), body)
         : await api('POST', '', body);
-      currentId = persona.id;
-      dirty = false;
-      showTitle();
-      setState('Saved · ' + timeLabel(persona.updated_at), 'ok');
-      await loadList();
+      // Saved — clear the form so the next persona can be entered straight away.
+      await clearForm('Saved “' + persona.title + '” · ready for the next persona', 'ok');
+      form.elements.title?.focus({ preventScroll: true });
     } catch (error) {
       setState(error.message, 'error');
     } finally {
@@ -720,12 +718,21 @@
     } finally { busy = false; }
   }
 
-  function newPersona() {
-    if (busy || !confirmDiscard()) return;
+  /** Empties the form for a new persona and refreshes the saved list. */
+  async function clearForm(message, tone = '') {
     form.reset();
     currentId = null;
     dirty = false;
-    setTimeout(() => { showTitle(); setState('Not saved yet'); loadList(); window.scrollTo({ top: 0, behavior: 'smooth' }); }, 0);
+    await new Promise(resolve => setTimeout(resolve, 0));   // native values reset after the event
+    showTitle();
+    setState(message, tone);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    await loadList();
+  }
+
+  function newPersona() {
+    if (busy || !confirmDiscard()) return;
+    clearForm('Not saved yet');
   }
 
   form.addEventListener('input', () => { dirty = true; showTitle(); setState(currentId ? 'Unsaved changes' : 'Not saved yet', 'warn'); });
