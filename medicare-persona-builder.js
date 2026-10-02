@@ -593,9 +593,7 @@
     empty: document.getElementById('savedEmpty'),
     title: document.getElementById('currentTitle'),
     state: document.getElementById('saveState'),
-    save: document.getElementById('savePersona'),
-    fresh: document.getElementById('newPersona'),
-  };
+    save: document.getElementById('savePersona'),  };
   let currentId = null;
   let dirty = false;
   let busy = false;
@@ -730,16 +728,10 @@
     await loadList();
   }
 
-  function newPersona() {
-    if (busy || !confirmDiscard()) return;
-    clearForm('Not saved yet');
-  }
 
   form.addEventListener('input', () => { dirty = true; showTitle(); setState(currentId ? 'Unsaved changes' : 'Not saved yet', 'warn'); });
   form.addEventListener('change', () => { dirty = true; setState(currentId ? 'Unsaved changes' : 'Not saved yet', 'warn'); });
-  ui.save.addEventListener('click', savePersona);
-  ui.fresh.addEventListener('click', newPersona);
-  document.addEventListener('keydown', event => {
+  ui.save.addEventListener('click', savePersona);  document.addEventListener('keydown', event => {
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') { event.preventDefault(); savePersona(); }
   });
   window.addEventListener('beforeunload', event => { if (dirty) { event.preventDefault(); event.returnValue = ''; } });
