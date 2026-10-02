@@ -316,21 +316,6 @@
     };
   }
 
-  if (typeof module !== 'undefined' && module.exports) module.exports = { groups, fields, clean, validate, build };
-  if (typeof document === 'undefined') return;
-  const form = document.getElementById('personaForm');
-  // Status line and draft buttons are optional; the page may be served without them.
-  const status = document.getElementById('status') || { textContent: '' };
-  const findings = document.getElementById('findings');
-  const preview = document.getElementById('preview');
-  const output = document.getElementById('output');
-  const storageKey = 'medicare-persona-builder:v2:draft';
-  const node = (tag, textContent, className) => {
-    const element = document.createElement(tag);
-    if (textContent !== undefined) element.textContent = textContent;
-    if (className) element.className = className;
-    return element;
-  };
   // Display-only formatting. Stored values, validation and export keep the original wording.
   const SMALL_WORDS = new Set(['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'from', 'if', 'in', 'into', 'nor', 'of', 'on', 'or', 'per', 'the', 'to', 'vs', 'via', 'with']);
   const capitalise = (word, first) => {
@@ -345,6 +330,23 @@
     if (!m) return { main: titleCase(str), note: '' };
     const note = (m[2] || m[3]).trim();
     return { main: titleCase(m[1]), note: note[0].toUpperCase() + note.slice(1) };
+  };
+  if (typeof module !== 'undefined' && module.exports) module.exports = { groups, fields, clean, validate, build };
+  // Shared with the saved-personas page, which shows the same sections and labels.
+  if (typeof window !== 'undefined') window.PersonaSchema = { groups, fields, optionPairs, active, clean, OTHER, titleCase, splitLabel };
+  if (typeof document === 'undefined' || !document.getElementById('personaForm')) return;
+  const form = document.getElementById('personaForm');
+  // Status line and draft buttons are optional; the page may be served without them.
+  const status = document.getElementById('status') || { textContent: '' };
+  const findings = document.getElementById('findings');
+  const preview = document.getElementById('preview');
+  const output = document.getElementById('output');
+  const storageKey = 'medicare-persona-builder:v2:draft';
+  const node = (tag, textContent, className) => {
+    const element = document.createElement(tag);
+    if (textContent !== undefined) element.textContent = textContent;
+    if (className) element.className = className;
+    return element;
   };
   const ICON_INFO = '<svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">'
     + '<circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/>'
@@ -737,4 +739,10 @@
 
   sync();
   loadList();
+  // Opened from the saved-personas page: index.html?id=<persona id>
+  const startId = new URLSearchParams(window.location.search).get('id');
+  if (startId) {
+    window.history.replaceState(null, '', window.location.pathname);
+    openPersona(startId);
+  }
 })();

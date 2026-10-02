@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saved Personas · Medicare Customer Persona Builder</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23146855'/%3E%3Cpath d='M16 9v14M9 16h14' stroke='white' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="medicare-persona-builder.css">
+  <script src="medicare-persona-builder.js" defer></script>
+  <script src="personas.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="header-row">
+      <div class="eyebrow">Medicare · Licensed Agent Training</div>
+      <nav class="topnav" aria-label="Pages"><a href="index.html">Builder</a><a href="personas.html" aria-current="page">Saved Personas</a></nav>
+    </div>
+    <h1>Saved Personas</h1>
+    <p>Every persona saved from the builder. Search the library, review a persona’s full details, or open it in the builder to edit.</p>
+  </header>
+
+  <div class="library">
+    <div class="library-toolbar">
+      <div class="search">
+        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><circle cx="9" cy="9" r="5.75" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m13.5 13.5 3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <input id="search" type="search" placeholder="Search by scenario or customer name" aria-label="Search personas">
+      </div>
+      <select id="difficultyFilter" aria-label="Filter by difficulty">
+        <option value="">All Difficulties</option>
+        <option value="Easy">Easy</option>
+        <option value="Medium">Medium</option>
+        <option value="Hard">Hard</option>
+      </select>
+      <span id="count" class="count" role="status" aria-live="polite"></span>
+      <a class="button primary" href="index.html">+ New Persona</a>
+    </div>
+
+    <div class="library-body">
+      <section class="library-list" aria-label="Personas">
+        <ul id="personaList" class="persona-list"></ul>
+        <p id="listMessage" class="list-message">Loading saved personas…</p>
+      </section>
+
+      <section id="detail" class="detail card" aria-live="polite">
+        <div class="detail-empty">
+          <h2>Select a Persona</h2>
+          <p>Choose a persona from the list to see everything that was entered for it.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
