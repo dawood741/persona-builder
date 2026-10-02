@@ -602,6 +602,23 @@
     ui.state.textContent = message;
     ui.state.dataset.tone = tone;
   }
+  /** Brief confirmation that pops up at the bottom of the screen and fades away. */
+  let toastTimer;
+  function toast(message) {
+    let el = document.getElementById('toast');
+    if (!el) {
+      el = node('div', undefined, 'toast');
+      el.id = 'toast';
+      el.setAttribute('role', 'status');
+      document.body.append(el);
+    }
+    el.replaceChildren();
+    el.insertAdjacentHTML('beforeend', '<svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="m6 10.3 2.6 2.6L14 7.5" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    el.append(node('span', message));
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+  }
   function showTitle() {
     ui.title.textContent = form.elements.title?.value.trim() || 'New Persona';
   }
@@ -694,7 +711,8 @@
         ? await api('PUT', '?id=' + encodeURIComponent(currentId), body)
         : await api('POST', '', body);
       // Saved — clear the form so the next persona can be entered straight away.
-      await clearForm('Saved “' + persona.title + '” · ready for the next persona', 'ok');
+      await clearForm('Not saved yet');
+      toast('Saved “' + persona.title + '”');
       form.elements.title?.focus({ preventScroll: true });
     } catch (error) {
       setState(error.message, 'error');
